@@ -39,11 +39,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $contractType = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $releaseDate = null;
+
+    #[ORM\ManyToOne(inversedBy: 'title')]
+    private ?ActivityArea $activityArea = null;
+
+    #[ORM\ManyToOne(inversedBy: 'title')]
+    private ?ContractType $contractType = null;
 
 
     public function getId(): ?int
@@ -171,17 +174,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getContractType(): ?string
-    {
-        return $this->contractType;
-    }
-
-    public function setContractType(string $contractType): static
-    {
-        $this->contractType = $contractType;
-
-        return $this;
-    }
 
     public function getReleaseDate(): ?\DateTimeInterface
     {
@@ -194,5 +186,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getActivityArea(): ?ActivityArea
+    {
+        return $this->activityArea;
+    }
+
+    public function setActivityArea(?ActivityArea $activityArea): static
+    {
+        $this->activityArea = $activityArea;
+
+        return $this;
+    }
+
+    public function getContractType(): ?ContractType
+    {
+        return $this->contractType;
+    }
+
+    public function setContractType(?ContractType $contractType): static
+    {
+        $this->contractType = $contractType;
+
+        return $this;
+    }
+
 
 }
