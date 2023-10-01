@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+<style>
+    .card {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    a {
+        text-decoration: none;
+        color: #3498db;
+        font-size: 20px;
+    }
+</style>
+
+<div class="card">
+    <h1>Bienvenue à la HB Corp !</h1>
+    <a href="{{ path('app_login') }}">Connecte toi à ton compte 🚀</a>
+</div>
+{% endblock %}
