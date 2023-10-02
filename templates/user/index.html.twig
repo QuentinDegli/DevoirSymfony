@@ -2,8 +2,64 @@
 
 {% block title %}User index{% endblock %}
 
+
 {% block body %}
+
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .table th, .table td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+    }
+
+    .table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .table tr:hover {
+        background-color: #e0e0e0;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+        margin-right: 10px;
+        padding: 5px;
+        background-color: gray;
+    }
+
+    a:hover {
+        color: #0056b3;
+    }
+
+    a:active {
+        color: #0056b3;
+    }
+
+</style>
+
     <h1>User index</h1>
+
+    <a href="{{ path('app_user_new') }}">Create new</a>
 
     <table class="table">
         <thead>
@@ -47,5 +103,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
 {% endblock %}

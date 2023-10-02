@@ -31,6 +31,11 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            //récupère le FILE
+            //Renommer le fichier
+            //Enregistrer le file dans le fichier upload dans le serveur 
+            // Enregistre en BDD le chemin du file
 
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -66,6 +71,12 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //récupère le FILE
+            //Renommer le fichier
+            //Supprimer l'ancien fichier
+            //Enregistrer le file dans le fichier upload dans le serveur 
+            // Enregistre en BDD le chemin du file
             $entityManager->flush();
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
@@ -81,6 +92,9 @@ class UserController extends AbstractController
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+
+            //Supprime le file
+            
             $entityManager->remove($user);
             $entityManager->flush();
         }
