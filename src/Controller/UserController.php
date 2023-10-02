@@ -7,10 +7,13 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin/user')]
 class UserController extends AbstractController
@@ -24,7 +27,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher, SluggerInterface $slugger): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -32,10 +35,26 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            //récupère le FILE
-            //Renommer le fichier
-            //Enregistrer le file dans le fichier upload dans le serveur 
-            // Enregistre en BDD le chemin du file
+            //Je ne parviens pas à afficher les photos uplodés
+            /** @var UploadedFile $pictureFile */
+            $pictureFile = $form->get('pictureFile')->getData();
+            if ($pictureFile) {
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid(true).'.'.$pictureFile->guessExtension();
+
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('picture_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    
+                }
+
+                $user->setPicture($newFilename);
+            }
+            
 
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -94,7 +113,7 @@ class UserController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
 
             //Supprime le file
-            
+
             $entityManager->remove($user);
             $entityManager->flush();
         }

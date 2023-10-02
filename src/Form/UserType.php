@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -62,9 +63,25 @@ class UserType extends AbstractType
             'label' => 'Date de fin de contrat',
             'format' => 'yyyy-MM-dd', // Format de la date
         ])
-        ->add('picture', FileType::class, [   
+        ->add('pictureFile', FileType::class, [   
             'label' => 'Profile Picture',
             'mapped' => false,
+            'constraints' => [
+                new File([
+                    'maxSize' => '1024k',
+                    'mimeTypes' => [
+                        'image/png',
+                        'image/jpg',
+                        'image/jpeg',
+                        'image/webp',
+                        'image/gif',
+                        'image/jpeg',
+                        'image/svg',
+                    ],
+                    'mimeTypesMessage' => 'the file is not valid',
+                    'maxSizeMessage' => 'Max size is 1024'
+                ])
+            ],
             'required' => false,
         ])
 
