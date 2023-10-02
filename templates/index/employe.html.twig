@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de {{ user.firstname }}{% endblock %}
+
+{% block body %}
+    <h1>Détails de {{ user.firstname }}</h1>
+
+    <img src=" {{ user.picture }} " alt="photo employé">
+    <ul>
+        
+        <li>Prénom: {{ user.firstname }}</li>
+        <li>Nom: {{ user.lastname }}</li>
+        <li>Email: {{ user.email }}</li>
+        <li>Secteur d'activité: {{ user.activityArea.name }}</li>
+        <li>Type de contrat: {{ user.contractType.name }}</li>
+        <li>Date de fin de contrat: {{ user.releasedate | date('Y-m-d') }}</li>
+    </ul>
+{% endblock %}

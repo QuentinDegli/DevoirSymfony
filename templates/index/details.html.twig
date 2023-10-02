@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employés{% endblock %}
+
+{% block body %}
+    <h1>Liste des employés</h1>
+
+    <ul>
+        {% for user in users %}
+            <li>
+                {{ user.id }} - <a href="{{ path("app_employe", { "id": user.id }) }}">{{ user.firstname }} {{ user.lastname }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

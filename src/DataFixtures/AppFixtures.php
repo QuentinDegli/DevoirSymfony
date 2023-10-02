@@ -58,6 +58,8 @@ class AppFixtures extends Fixture
                 ->setLastname($faker->lastName())
                 ->setContractType($faker->randomElement($contractTypes))
                 ->setActivityArea($faker->randomElement($activityAreas))
+                ->setPicture($faker->imageUrl())
+                ->setReleaseDate($faker->dateTimeBetween('now', '+1 year'))
                 ;
 
             $manager->persist($regularUser);
@@ -73,6 +75,7 @@ class AppFixtures extends Fixture
                 ->setLastname($faker->lastName())
                 ->setContractType($faker->randomElement($contractTypes))
                 ->setActivityArea($faker->randomElement($activityAreas))
+                ->setPicture('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.leprogres.fr%2Fmagazine-lifestyle%2F2022%2F12%2F20%2Fle-chartreux-le-chat-bleu-aux-yeux-d-or&psig=AOvVaw1gx42YJoCeezer-5Zp4aFk&ust=1696324154044000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCD1YaC14EDFQAAAAAdAAAAABAO')
                 ;
             $manager->persist($adminUser);
         

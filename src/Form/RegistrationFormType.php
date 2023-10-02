@@ -2,15 +2,20 @@
 
 namespace App\Form;
 
+use App\Entity\ActivityArea;
+use App\Entity\ContractType;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -18,16 +23,26 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('firstname')  // Add firstname field
-            ->add('lastname')   // Add lastname field
-            //->add('roles')       // Add role field
-            //->add('activityarea')  // Add activityarea field
-            ->add('contracttype')  // Add contracttype field
-            //->add('pictures', FileType::class, [   // Add pictures field
-               //'label' => 'Profile Picture',
-                //'mapped' => false,
-                //'required' => false,
-            //])
+            ->add('firstname')  
+            ->add('lastname')   
+            //->add('roles')       
+            ->add('activityarea', EntityType::class, [
+                'class' => ActivityArea::class,
+                'choice_label' => 'name'
+            ])  
+            ->add('contracttype', EntityType::class, [
+                'class' => ContractType::class,
+                'choice_label' => 'name'
+            ])
+            ->add('releasedate', DateType::class, [
+                'label' => 'Date de fin de contrat',
+                'format' => 'yyyy-MM-dd', // Format de la date
+            ])
+            ->add('picture', FileType::class, [   
+                'label' => 'Profile Picture',
+                'mapped' => false,
+                'required' => false,
+            ])
 
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
